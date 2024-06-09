@@ -1,33 +1,23 @@
 import { createStore } from 'redux';
 
+const counterReducer = (state = { counter: 0 }, action) => {
+    switch (action.type) {
+        case 'IncrementBy5':
+            return { counter: state.counter + 5 };
+        case 'DecrementBy5':
+            return { counter: state.counter - 5 };
+        default:
+            return state; // Ensure to return the current state if the action type is not recognized
+    }
+};
 
-const redux=require('redux');
+const store = createStore(counterReducer); // Create the store using the imported createStore
 
- const counterReducer=(state={counter:0},action)=>{
-    if(action.type === 'decrement'){
+const counterSubscriber = () => {
+    const latestState = store.getState();
+    console.log(latestState);
+};
 
-        return { counter:state.counter -1 }
-        
-        }
-    if(action.type==='increment'){
-        return{
-        
-        counter:state.counter+1
-        }
-    };
-    return state;
- };
-  
-  const store=redux.createStore(counterReducer);
+store.subscribe(counterSubscriber);
 
- 
-  const counterSubscriber=()=>{
-const latestState=store.getState();
-console.log(latestState);
-  }
- store.subscribe(counterSubscriber);
-
-   
-   
-        
-        export default store;
+export default store;
